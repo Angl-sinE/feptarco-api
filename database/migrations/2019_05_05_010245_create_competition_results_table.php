@@ -15,7 +15,18 @@ class CreateCompetitionResultsTable extends Migration
     {
         Schema::create('competition_results', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('competition_id')->unsigned();
+            $table->integer('status');
             $table->timestamps();
+        });
+
+        Schema::table('competition_enrollments', function($table) {
+            $table->foreign('updated_by')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('competition_id')->references('id')->on('competitions')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('archer_id')->references('id')->on('archer_profiles')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
