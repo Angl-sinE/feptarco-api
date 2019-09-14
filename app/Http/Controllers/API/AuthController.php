@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 
 use App\Handlers\AuthModule\LoginHandler;
+use App\Handlers\AuthModule\PasswordQuickResetHandler;
 use App\Handlers\AuthModule\PasswordResetExecute;
 use App\Handlers\AuthModule\PasswordResetFindHandler;
 use App\Handlers\AuthModule\PasswordResetHandler;
@@ -14,8 +15,6 @@ use Illuminate\Support\Facades\Lang;
 
 class AuthController extends ApiController
 {
-
-
     /**
      * Registers the user
      * @param Request $request
@@ -34,8 +33,6 @@ class AuthController extends ApiController
         return self::apiResponseError($handler->getErrors());
 
     }
-
-
 
     /**
      * Login user and creates the access token
@@ -86,7 +83,6 @@ class AuthController extends ApiController
 
     }
 
-
     /**
      * @param Request $request
      * @return mixed
@@ -129,6 +125,17 @@ class AuthController extends ApiController
             return self::apiResponseOK(Lang::trans('message.api.password.reset.password.success'), $handler->getData());
         }
         return self::apiResponseError(Lang::trans('message.api.password.reset.password.error'));
+
+    }
+
+    public function executePasswordQuickReset(Request $request)
+    {
+        $handler = new PasswordQuickResetHandler($request->method(), $request->all());
+        $handler->processHandler();
+        if ($handler->isSuccess()){
+            return self::apiResponseCreatedNoData(Lang::trans('message.api.password.reset.password.success'));
+        }
+        return self::apiResponseError($handler->getErrors());
 
     }
 }

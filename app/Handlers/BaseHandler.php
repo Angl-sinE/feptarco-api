@@ -78,8 +78,9 @@ abstract class BaseHandler
 
          if ($this->isSuccess()) {
 
+             $this->handle();
              try {
-                 $this->handle();
+
             } catch (\Exception $ex) {
                   Log::error(json_encode($ex));
                   $this->addError(Lang::trans('message.exception.handler.generalError').' '.$ex->getMessage());

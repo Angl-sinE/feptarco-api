@@ -55,8 +55,10 @@ class PasswordUpdateHandler extends BaseHandler
     public function validationRules()
     {
         return [
-
-            'password' => 'required|string|min:6|confirmed',
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                'confirmed'],
             'email' => 'required|string|email|max:255'
         ];
     }

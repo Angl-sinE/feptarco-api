@@ -39,4 +39,9 @@ class ArcherProfile extends Model
         return $this->hasOne('App\Model\CompetitionEnrollment');
     }
 
+    public function competitionResults()
+    {
+        return $this->belongsToMany('\App\Model\CompetitionResults');
+    }
+
 }

@@ -18,7 +18,7 @@ return [
     'api.update.success' => 'Actualizacion exitosa',
 
     /** DB Errors */
-    'api.profile.error.user' => 'Error de BD: No se encontró el usuario',
+    'api.profile.error.user' => 'No se encontró el usuario',
 
 
     /** Auth , Profile , Access, User */
@@ -53,8 +53,7 @@ return [
      'api.password.reset.sent' => 'Enviado correo de restauracion de password',
      'api.password.reset.invalid.token' => 'token invalido',
      'api.password.reset.invalid.password.token' => 'token de reinicio de password invalido',
-
-
+     'api.password.reset.incorrect' => 'Contraseña Invalida',
 
      /** Register */
     'api.success.register.user' => 'Usuario Creado exitosamente',

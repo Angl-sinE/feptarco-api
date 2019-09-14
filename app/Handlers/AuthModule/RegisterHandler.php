@@ -114,7 +114,10 @@ class RegisterHandler extends BaseHandler
             case Role::ROLE_ARCHER:
                 return [
                     'email' => 'required|string|email|max:255|unique:users',
-                    'password' => 'required|string|min:6|confirmed',
+                    'password' => ['required',
+                                    'min:6',
+                                    'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                                    'confirmed'],
                     'first_names' =>'required|string|max:255',
                     'last_names' => 'required|string|max:255',
                     'gender' => 'required|string',
@@ -143,7 +146,10 @@ class RegisterHandler extends BaseHandler
             case Role::ROLE_ADMIN:
             return [
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => ['required',
+                                'min:6',
+                                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                                'confirmed'],
                 'first_names' =>'required|string|max:255',
                 'last_names' => 'required|string|max:255',
                 'gender' => 'required|string',
@@ -162,7 +168,10 @@ class RegisterHandler extends BaseHandler
                     'email' => 'required|string|email|max:255|unique:users',
                     'first_names' =>'required|string|max:255',
                     'last_names' => 'required|string|max:255',
-                    'password' => 'required|string|min:6|confirmed',
+                    'password' => ['required',
+                        'min:6',
+                        'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                        'confirmed'],
                     'dni' => 'required|string|min:8|unique:users',
                     'age' => 'required|numeric|min:2',
                     'role' => 'required|string',
@@ -181,7 +190,10 @@ class RegisterHandler extends BaseHandler
                     'email' => 'required|string|email|max:255|unique:users',
                     'first_names' =>'required|string|max:255',
                     'last_names' => 'required|string|max:255',
-                    'password' => 'required|string|min:6|confirmed',
+                    'password' => ['required',
+                        'min:6',
+                        'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                        'confirmed'],
                     'dni' => 'required|string|min:8|unique:users',
                     'role' => 'required|string',
                     'age' => 'required|numeric|min:2',
@@ -197,7 +209,6 @@ class RegisterHandler extends BaseHandler
             default:
                 return null;
                 break;
-
         }
     }
 

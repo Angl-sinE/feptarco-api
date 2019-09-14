@@ -23,8 +23,6 @@ class LoginHandler extends BaseHandler
 
     protected function handle()
     {
-
-
         $email = strtolower($this->request['email']);
 
         $auth = Auth::attempt(['email' => $email, 'password' => $this->request['password']]);
@@ -36,12 +34,9 @@ class LoginHandler extends BaseHandler
                 $this->setData($response);
             else
                 $this->setEmptyData();
-
-
         } else{
             $this->addError(Lang::trans('message.api.login.invalid.creds'));
         }
-
     }
 
     /**

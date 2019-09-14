@@ -25,4 +25,9 @@ class Competition extends Model
     {
         return $this->hasOne('App\Model\CompetitionEnrollment');
     }
+
+    public function result()
+    {
+        return $this->hasOne('App\Model\CompetitionResult');
+    }
 }

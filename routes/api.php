@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 /**********  API Routes ********/
 Route::any('test',  'API\AuthController@test');
 Route::post('/login', 'API\AuthController@login');
-
+Route::post(
+    '/password-reset',
+    ['uses' =>'API\AuthController@executePasswordQuickReset']);
 
 
 /************ Auth Group Routes **************/
