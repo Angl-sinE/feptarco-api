@@ -8,7 +8,7 @@
 
 namespace App\Handlers\AuthModule;
 
-
+use Illuminate\Support\Facades\DB;
 use App\DAO\PasswordResetDAO;
 use App\DAO\UserDAO;
 use App\Handlers\BaseHandler;
@@ -21,6 +21,7 @@ class PasswordResetExecute extends BaseHandler
     {
        $passwordResetDao = new PasswordResetDAO();
        $userDao = new UserDAO();
+       DB::beginTransaction();
        $passwordReset = $passwordResetDao->findOneBy(['token'=>$this->request['token'], 'email'=>$this->request['email']]);
        if (!isset($passwordReset)){
         $this->addError(Lang::trans('message.api.password.reset.invalid.password.token'));
@@ -29,9 +30,10 @@ class PasswordResetExecute extends BaseHandler
        if (!isset($user)){
             $this->addError(Lang::trans('message.api.password.reset.error.exists'));
        }
-       $user->password = bcrypt($this->request['password']);
+       $userDao->update($user, ['password' => bcrypt($this->request['password'])]);
        $passwordResetDao->delete($passwordReset);
        $user->notify(new PasswordResetSuccess());
+       DB::commit();
        $response = $this->setResponseData($user);
        $this->setData($response);
 
@@ -45,7 +47,10 @@ class PasswordResetExecute extends BaseHandler
     {
         return [
             'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                'confirmed'],
             'token' => 'required|string'
         ];
     }
