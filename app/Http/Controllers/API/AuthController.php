@@ -24,7 +24,7 @@ class AuthController extends ApiController
     public function registerUser(Request $request)
     {
 
-        $handler = new RegisterHandler($request->method(),$request->all(),null);
+        $handler = new RegisterHandler($request->all());
         $handler->processHandler();
 
         if ($handler->isSuccess()){
@@ -42,13 +42,12 @@ class AuthController extends ApiController
      */
     public function login(Request $request)
     {
-        $handler = new LoginHandler($request->method(),$request->all(),null);
+        $handler = new LoginHandler($request->all());
         $handler->processHandler();
 
         if ($handler->isSuccess()){
             return  self::apiResponseAccepted(Lang::trans('message.api.success.login'), $handler->getData());
         }
-
         return self::apiResponseUnauthorized($handler->getErrors());
     }
 
@@ -80,7 +79,6 @@ class AuthController extends ApiController
         } else{
             return self::apiResponseUnauthorized(['errors' =>Lang::trans('message.api.auth.error')]);
         }
-
     }
 
     /**
@@ -89,13 +87,12 @@ class AuthController extends ApiController
      */
     public function createPasswordReset(Request $request)
     {
-        $handler = new PasswordResetHandler($request->method(),$request->all(),null);
+        $handler = new PasswordResetHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return  self::apiResponseOK(Lang::trans('message.api.password.reset.email.success'), $handler->getData());
         }
         return self::apiResponseError(Lang::trans('message.api.password.reset.email.error'));
-
     }
 
     /**
@@ -104,13 +101,12 @@ class AuthController extends ApiController
      */
     public function findPasswordReset($token)
     {
-        $handler = new PasswordResetFindHandler('Token',['token' =>$token],null);
+        $handler = new PasswordResetFindHandler('Token',['token' =>$token]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return  self::apiResponseOK(Lang::trans('message.password.reset.token.success'), $handler->getData());
         }
         return self::apiResponseError(Lang::trans('message.api.password.reset.token.error'));
-
     }
 
     /**
@@ -119,23 +115,21 @@ class AuthController extends ApiController
      */
     public function executePasswordReset(Request $request)
     {
-        $handler = new PasswordResetExecute($request->method(),$request->all(),null);
+        $handler = new PasswordResetExecute($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK(Lang::trans('message.api.password.reset.password.success'), $handler->getData());
         }
         return self::apiResponseError(Lang::trans('message.api.password.reset.password.error'));
-
     }
 
     public function executePasswordQuickReset(Request $request)
     {
-        $handler = new PasswordQuickResetHandler($request->method(), $request->all());
+        $handler = new PasswordQuickResetHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.password.reset.password.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 }

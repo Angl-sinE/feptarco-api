@@ -141,6 +141,23 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'first_names' => 'Nombres',
+        'last_names' => 'Apellidos',
+        'age' => 'edad',
+        'gender' => 'genero',
+        'current_address' => 'Direccíon',
+        'phone_number' => 'Teléfono',
+        'current_category' => 'Categoria Actual',
+        'mode' => 'Modalidad Actual',
+        'joined_date' => 'Fecha de Ingreso',
+        'details' => 'Detalles',
+        'season_best' => 'Mejor de la temporada',
+        'carreer_best' => 'Mejor de la Carrera',
+        'number_of_matches' => 'Total de Competencias',
+        'average_arrow' => 'Flecha Promedio',
+        'number_of_faults' => 'Total de Faltas'
+
+    ],
 
 ];

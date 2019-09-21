@@ -19,14 +19,12 @@ class InventoryController extends ApiController
      */
     public function index(Request $request)
     {
-        $handler = new CheckInventoryHandler($request->method(),$request->all());
+        $handler = new CheckInventoryHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
              return self::apiResponseOK('Ok', $handler->getData());
         }
-
         return self::apiResponseInternalError($handler->getErrors());
-
     }
 
     /**
@@ -36,14 +34,12 @@ class InventoryController extends ApiController
      */
     public function register(Request $request)
     {
-        $handler = new RegisterInventoryHandler($request->method(),$request->all());
+        $handler = new RegisterInventoryHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.gear.register.success'));
         }
-
         return self::apiResponseInternalError($handler->getErrors());
-
     }
 
     /**
@@ -54,7 +50,7 @@ class InventoryController extends ApiController
      */
     public function update(Request $request, $id){
 
-        $handler = new UpdateInventoryHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new UpdateInventoryHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         
         if ($handler->isSuccess()){
@@ -72,7 +68,7 @@ class InventoryController extends ApiController
      */
     public function delete(Request $request, $id)
     {
-        $handler = new DeleteInventoryHandler($request->method(),$request->all(),['id'=>$id]);
+        $handler = new DeleteInventoryHandler($request->all(),['id'=>$id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.gear.delete.success'));

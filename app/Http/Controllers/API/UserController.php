@@ -26,14 +26,12 @@ class UserController extends ApiController
      */
     public function index(Request $request)
     {
-        $handler = new UserHandler($request->method(),$request->all());
+        $handler = new UserHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
-
-
     }
 
     /**
@@ -43,7 +41,7 @@ class UserController extends ApiController
      */
     public function update(Request $request)
     {
-        $handler = new UpdateUserHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new UpdateUserHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.user.delete.success'));
@@ -59,13 +57,12 @@ class UserController extends ApiController
      */
     public function delete(Request $request, $id)
     {
-        $handler = new DeleteUserHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new DeleteUserHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.user.delete.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -76,13 +73,12 @@ class UserController extends ApiController
      */
     public function activate(Request $request, $id)
     {
-        $handler = new ActivateUserHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new ActivateUserHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.user.activate.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -93,13 +89,11 @@ class UserController extends ApiController
      */
     public function details(Request $request, $id)
     {
-        $handler = new DetailsUserHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new DetailsUserHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
-
     }
-
 }

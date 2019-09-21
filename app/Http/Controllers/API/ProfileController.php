@@ -25,15 +25,12 @@ class ProfileController extends ApiController
      */
     public function index(Request $request)
     {
-
-        $handler = new ProfileHandler($request->method(),$request->all(),null);
+        $handler = new ProfileHandler($request->all());
             $handler->processHandler();
             if ($handler->isSuccess()){
                 return self::apiResponseOK('Ok', $handler->getData());
             }
             return self::apiResponseError($handler->getErrors());
-
-
     }
 
     /**
@@ -44,7 +41,7 @@ class ProfileController extends ApiController
     public function update(Request $request, $id)
     {
 
-           $handler = new ProfileUpdateHandler($request->method(),$request->all(), ['id' => $id]);
+           $handler = new ProfileUpdateHandler($request->all(), ['id' => $id]);
            $handler->processHandler();
             if ($handler->isSuccess()){
                 return self::apiResponseCreatedNoData(Lang::trans('message.api.profile.update.success'));
@@ -59,7 +56,7 @@ class ProfileController extends ApiController
      */
     public function passwordUpdate(Request $request)
     {
-      $handler = new PasswordUpdateHandler($request->method(),$request->all(),null);
+      $handler = new PasswordUpdateHandler($request->all());
       $handler->processHandler();
       if ($handler->isSuccess()){
           return self::apiResponseOK('OK');
@@ -73,13 +70,11 @@ class ProfileController extends ApiController
      */
     public function avatarUpdate(Request $request)
     {
-        $handler = new ProfileAvatarUpdateHandler($request->method(),$request->all());
+        $handler = new ProfileAvatarUpdateHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreated(Lang::trans('message.api.profile.avatar.store.success'),$handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
-
     }
-
 }

@@ -25,7 +25,7 @@ class RoleController extends ApiController
     public function roles(Request $request)
     {
 
-        $handler = new RoleHandler($request->method(),$request->all(),null);
+        $handler = new RoleHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('List Ok', $handler->getData());

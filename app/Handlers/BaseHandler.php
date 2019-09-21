@@ -57,13 +57,11 @@ abstract class BaseHandler
     /**
      * BaseHandler constructor.
      * @param array $requestData
-     * @param String $method
-     * @param String $parameters
+     * @param array|null $parameters
      */
-    public function __construct(String $method, array $requestData, array $parameters = null)
+    public function __construct(array $requestData, array $parameters = null)
     {
         $this->request = $requestData;
-        $this->method = $method;
         $this->parameters = $parameters;
         $this->rules = $this->validationRules();
        
@@ -77,16 +75,12 @@ abstract class BaseHandler
         $this->checkRules();
 
          if ($this->isSuccess()) {
-
-             $this->handle();
              try {
-
+                 $this->handle();
             } catch (\Exception $ex) {
                   Log::error(json_encode($ex));
                   $this->addError(Lang::trans('message.exception.handler.generalError').' '.$ex->getMessage());
-
             }
-
        }
     }
 

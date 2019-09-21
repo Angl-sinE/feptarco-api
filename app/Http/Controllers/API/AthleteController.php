@@ -17,10 +17,8 @@ class AthleteController extends ApiController
 {
     public function index(Request $request)
     {
-
-
         if ($request->user()){
-            $handler = new AthleteHandler($request->method(),$request->all(),null);
+            $handler = new AthleteHandler($request->all());
             $handler->processHandler();
             if ($handler->isSuccess()){
                 return self::apiResponseOK('Ok', $handler->getData());
@@ -29,7 +27,6 @@ class AthleteController extends ApiController
         }
         else
             return self::apiResponseUnauthorized(Lang::trans('message.api.auth.error'));
-
     }
 
 }

@@ -27,7 +27,7 @@ class CompetitionController extends ApiController
      */
     public function index(Request $request)
     {
-        $handler = new CheckCompetitionHandler($request->method(),$request->all());
+        $handler = new CheckCompetitionHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
@@ -43,7 +43,7 @@ class CompetitionController extends ApiController
      */
     public function create(Request $request)
     {
-        $handler = new CreateCompetitionHandler($request->method(),$request->all());
+        $handler = new CreateCompetitionHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.register.success'));
@@ -59,14 +59,12 @@ class CompetitionController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $handler = new UpdateCompetitionHandler($request->method(),$request->all(),['id' => $id]);
+        $handler = new UpdateCompetitionHandler($request->all(),['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.update.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
-
     }
 
     /**
@@ -77,14 +75,12 @@ class CompetitionController extends ApiController
      */
     public function activate(Request $request, $id)
     {
-        $handler = new ActivateCompetitionHandler($request->method(),$request->all(),['id' => $id]);
+        $handler = new ActivateCompetitionHandler($request->all(),['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.activate.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
-
     }
 
     /**
@@ -94,24 +90,26 @@ class CompetitionController extends ApiController
      */
     public function delete(Request $request, $id)
     {
-        $handler = new DeleteCompetitionHandler($request->method(), $request->all(), ['id'=> $id]);
+        $handler = new DeleteCompetitionHandler($request->all(), ['id'=> $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.delete.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function indexType(Request $request)
     {
-        $handler = new CheckCompetitionTypeHandler($request->method(),$request->all());
+        $handler = new CheckCompetitionTypeHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -121,13 +119,12 @@ class CompetitionController extends ApiController
      */
     public function createType(Request $request)
     {
-        $handler = new CreateCompetitionTypeHandler($request->method(),$request->all());
+        $handler = new CreateCompetitionTypeHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.type.register.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -138,13 +135,12 @@ class CompetitionController extends ApiController
      */
     public function updateType(Request $request, $id)
     {
-        $handler = new UpdateCompetitionTypeHandler($request->method(),$request->all(), ['id'=> $id]);
+        $handler = new UpdateCompetitionTypeHandler($request->all(), ['id'=> $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.type.update.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -155,13 +151,12 @@ class CompetitionController extends ApiController
      */
     public function deleteType(Request $request, $id)
     {
-        $handler = new DeleteCompetitionTypeHandler($request->method(), $request->all(), ['id'=> $id]);
+        $handler = new DeleteCompetitionTypeHandler($request->all(), ['id'=> $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.type.delete.success'));
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -171,7 +166,7 @@ class CompetitionController extends ApiController
      */
     public function enrollmentCreate(Request $request)
     {
-        $handler = new CreateEnrollmentHandler($request->method(),$request->all());
+        $handler = new CreateEnrollmentHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.enrollment.register.success'));
@@ -187,7 +182,7 @@ class CompetitionController extends ApiController
      */
     public function enrollmentConfirm(Request $request , $id)
     {
-        $handler = new ConfirmEnrollmentHandler($request->method(), $request->all(), ['id' => $id]);
+        $handler = new ConfirmEnrollmentHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.competition.enrollment.confirm.success'));
@@ -203,13 +198,12 @@ class CompetitionController extends ApiController
      */
     public function getEnrollments(Request $request)
     {
-        $handler = new CheckEnrollmentHandler($request->method(),$request->all());
+        $handler = new CheckEnrollmentHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
-
     }
 
     /**
@@ -220,7 +214,7 @@ class CompetitionController extends ApiController
      */
     public function getArcherEnrollments(Request $request, $id)
     {
-        $handler = new CheckArcherEnrollmentHandler($request->method(),$request->all(), ['id' => $id]);
+        $handler = new CheckArcherEnrollmentHandler($request->all(), ['id' => $id]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
@@ -236,12 +230,11 @@ class CompetitionController extends ApiController
      */
     public function getArcherCompetitions(Request $request)
     {
-        $handler = new CheckArcherCompetitionHandler($request->method(), $request->all());
+        $handler = new CheckArcherCompetitionHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK('Ok', $handler->getData());
         }
         return self::apiResponseError($handler->getErrors());
     }
-
 }

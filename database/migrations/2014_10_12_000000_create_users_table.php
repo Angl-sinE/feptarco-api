@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('feptarco_id')->unique();
             $table->integer('active')->default(0);
             $table->string('avatar')->nullable();
+            $table->timestamp('last_login')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('dni')->unique();
             $table->string('password');
             $table->string('status')->default(1);

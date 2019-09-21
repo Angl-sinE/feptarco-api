@@ -17,6 +17,9 @@ use App\Services\CheckAuthService;
 
 class AthleteHandler extends BaseHandler
 {
+    /**
+     * @throws \Exception
+     */
     protected function handle()
     {
         // valida autenticacion
