@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('active')->default(0);
             $table->string('avatar')->nullable();
             $table->timestamp('last_login')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->boolean('first_login')->default(false);
             $table->string('dni')->unique();
             $table->string('password');
             $table->string('status')->default(1);

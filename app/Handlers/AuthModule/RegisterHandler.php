@@ -53,6 +53,7 @@ class RegisterHandler extends BaseHandler
                        $user->feptarco_id = $this->generateFeptarcoId($this->request['first_names'], $this->request['dni']);
                        $user->created_by = $checkedUser->id;
                        $user->updated_by = $checkedUser->id;
+                       $user->last_login = new DateTime();
                        $userDao->create($user);
                        // checks if the user was created
                        if (!$user->id){
