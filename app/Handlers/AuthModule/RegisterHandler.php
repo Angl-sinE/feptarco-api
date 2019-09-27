@@ -54,6 +54,7 @@ class RegisterHandler extends BaseHandler
                        $user->created_by = $checkedUser->id;
                        $user->updated_by = $checkedUser->id;
                        $user->last_login = new DateTime();
+                       $user->first_login = false;
                        $userDao->create($user);
                        // checks if the user was created
                        if (!$user->id){

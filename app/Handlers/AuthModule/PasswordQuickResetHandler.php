@@ -17,6 +17,9 @@ use App\DAO\UserDAO;
 
 class PasswordQuickResetHandler extends BaseHandler
 {
+    /**
+     * @throws \Exception
+     */
     protected function handle()
     {
         $userDao = new UserDAO();
@@ -24,7 +27,8 @@ class PasswordQuickResetHandler extends BaseHandler
         $checkedUser = $userDao->findOneBy(['email' => $this->request['email']]);
             if (isset($checkedUser)){
                 if(Hash::check($this->request['oldPassword'], $checkedUser->password)){
-                    $userDao->update($checkedUser, ['password' => bcrypt($this->request['password'])]);
+                    $userDao->update($checkedUser, ['password' => bcrypt($this->request['password']),
+                        'first_login' => false]);
                     DB::commit();
                 } else {
                     $this->addError(Lang::trans('message.api.password.reset.incorrect'));

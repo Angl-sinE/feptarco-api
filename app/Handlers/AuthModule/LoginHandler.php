@@ -99,7 +99,7 @@ class LoginHandler extends BaseHandler
         DB::beginTransaction();
         $userDAO = new UserDAO();
         $user = $userDAO->findOneBy(['id' => $user->id]);
-        $userDAO->update($user, ['first_login' => true, 'last_login' => new \DateTime()]);
+        $userDAO->update($user, ['last_login' => new \DateTime()]);
         DB::commit();
     }
     /**
