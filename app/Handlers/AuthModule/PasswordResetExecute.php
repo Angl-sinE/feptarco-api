@@ -49,7 +49,7 @@ class PasswordResetExecute extends BaseHandler
             'email' => 'required|string|email',
             'password' => ['required',
                 'min:6',
-                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/s',
                 'confirmed'],
             'token' => 'required|string'
         ];

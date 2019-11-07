@@ -89,7 +89,7 @@ return [
         'array'   => 'El campo :attribute debe contener al menos :min elementos.',
     ],
     'not_in'               => 'El campo :attribute seleccionado es inválido.',
-    'not_regex'            => 'El formato del campo :attribute es inválido.',
+    'not_regex'            => 'La clave debe incluir al menos una mayúscula, numero y caracter especial',
 	'numeric'              => 'El campo :attribute debe ser un número.',
     'present'              => 'El campo :attribute debe estar presente.',
     'regex'                => 'El formato del campo :attribute es inválido.',
