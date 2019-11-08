@@ -21,13 +21,16 @@ class PasswordResetFindHandler extends BaseHandler
        $passwordResetDao = new PasswordResetDAO();
 
        $passwordReset = $passwordResetDao->findOneBy(['token' =>$this->request['token']]);
+
        if (!isset($passwordReset)){
           $this->addError(Lang::trans('message.api.password.reset.invalid.password.token'));
        }
+
        if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()){
             $passwordResetDao->delete($passwordReset);
             $this->addError(Lang::trans('message.api.password.reset.invalid.password.token'));
        }
+
        $this->setData($passwordReset);
 
     }

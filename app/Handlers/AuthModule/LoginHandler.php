@@ -20,97 +20,100 @@ use App\DAO\TrainerProfileDAO;
 use App\DAO\AdminProfileDAO;
 class LoginHandler extends BaseHandler
 {
+	/**
+	 * @throws \Exception
+	 */
+	protected function handle()
+	{
+		$email = strtolower($this->request['email']);
+		$auth = Auth::attempt(['email' => $email, 'password' => $this->request['password']]);
 
-    /**
-     * @throws \Exception
-     */
-    protected function handle()
-    {
-        $email = strtolower($this->request['email']);
-        $auth = Auth::attempt(['email' => $email, 'password' => $this->request['password']]);
-        if ($auth){
-            $user = Auth::user();
-            $this->updateLoginStatus($user);
-            $token = $user->createToken('FeptarcoClient');
-            $response = $this->setResponseData($token,$user);
-            ($user);
-            if(!empty($response)){
-                $this->setData($response);
-            }
-            else
-                $this->setEmptyData();
-        } else{
-            $this->addError(Lang::trans('message.api.login.invalid.creds'));
-        }
-    }
+		if (isset($auth)) {
+			$this->addError(Lang::trans('message.api.login.invalid.creds'));
+		}
 
-    /**
-     * Sets the response array
-     * @param $tokenResult
-     * @param $user
-     * @return array
-     * @throws \Exception
-     */
-    private function setResponseData($tokenResult, $user)
-    {
-        $roles = $user->roles()->get()->toArray();
-        $archerDAO = new ArcherProfileDAO();
-        $trainerDAO = new TrainerProfileDAO();
-        $judgeDAO = new JudgeProfileDAO();
-        $adminDAO = new AdminProfileDAO();
+		$user = Auth::user();
 
-        $roleArray = [];
-        foreach ($roles as $role){
-          $roleArray[] = [
-              'name' => $role['name'],
-              'is_admin' => $role['is_admin']
-          ];
-        }
+		$this->updateLoginStatus($user);
+		$token = $user->createToken('FeptarcoClient');
+		$response = $this->setResponseData($token,$user);
 
-        $archerProfile = $archerDAO->findOneBy((['user_id' => $user->id]));
-        $adminProfile = $adminDAO->findOneBy((['user_id' => $user->id]));
-        $trainerProfile = $trainerDAO->findOneBy((['user_id' => $user->id]));
-        $judgeProfile = $judgeDAO->findOneBy((['user_id' => $user->id]));
+		if(!empty($response)) {
+			$this->setData($response);
+		}
+		else {
+			$this->setEmptyData();
+		}
+	}
 
-        $profiles = [
-          'archer_id' => isset($archerProfile->id) ? $archerProfile->id : null,
-          'admin_id' => isset($adminProfile->id) ? $adminProfile->id: null,
-          'trainer_id' => isset($trainerProfile->id) ? $trainerProfile->id : null,
-          'judge_id' => isset($judgeProfile->id) ? $judgeProfile->id: null,
-        ];
-        return $data[] = [
-           'access_token' => $tokenResult->accessToken,
-           'user' => $user->email,
-           'roles' => $roleArray,
-           'profiles' => $profiles,
-            'firstLogin' => $user->first_login,
-            'lastLogin' => $user->last_login,
-           'token_type' => 'Bearer',
-           'expires' =>Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
-        ];
-    }
+	/**
+	 * Sets the response array
+	 * @param $tokenResult
+	 * @param $user
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function setResponseData($tokenResult, $user)
+	{
+		$roles = $user->roles()->get()->toArray();
+		$archerDAO = new ArcherProfileDAO();
+		$trainerDAO = new TrainerProfileDAO();
+		$judgeDAO = new JudgeProfileDAO();
+		$adminDAO = new AdminProfileDAO();
+		$roleArray = [];
 
-    /**
-     * @param $user
-     * @throws \Exception
-     */
-    private function updateLoginStatus($user)
-    {
-        DB::beginTransaction();
-        $userDAO = new UserDAO();
-        $user = $userDAO->findOneBy(['id' => $user->id]);
-        $userDAO->update($user, ['last_login' => new \DateTime()]);
-        DB::commit();
-    }
-    /**
-     * Returns the validation rules array
-     * @return array
-     */
-    public function validationRules()
-    {
-        return [
-            'email' => 'required|string|email',
-            'password' => 'required|string'
-        ];
-    }
+		foreach ($roles as $role){
+		  $roleArray[] = [
+			  'name' => $role['name'],
+			  'is_admin' => $role['is_admin']
+		  ];
+		}
+
+		$archerProfile = $archerDAO->findOneBy((['user_id' => $user->id]));
+		$adminProfile = $adminDAO->findOneBy((['user_id' => $user->id]));
+		$trainerProfile = $trainerDAO->findOneBy((['user_id' => $user->id]));
+		$judgeProfile = $judgeDAO->findOneBy((['user_id' => $user->id]));
+
+		$profiles = [
+		  'archer_id' => isset($archerProfile->id) ? $archerProfile->id : null,
+		  'admin_id' => isset($adminProfile->id) ? $adminProfile->id: null,
+		  'trainer_id' => isset($trainerProfile->id) ? $trainerProfile->id : null,
+		  'judge_id' => isset($judgeProfile->id) ? $judgeProfile->id: null,
+		];
+
+		return $data[] = [
+		   'access_token' => $tokenResult->accessToken,
+		   'user'       => $user->email,
+		   'roles'      => $roleArray,
+		   'profiles'   => $profiles,
+			'firstLogin'=> $user->first_login,
+			'lastLogin' => $user->last_login,
+		   'token_type' => 'Bearer',
+		   'expires'    => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+		];
+	}
+
+	/**
+	 * @param $user
+	 * @throws \Exception
+	 */
+	private function updateLoginStatus($user)
+	{
+		DB::beginTransaction();
+		$userDAO = new UserDAO();
+		$user = $userDAO->findOneBy(['id' => $user->id]);
+		$userDAO->update($user, ['last_login' => new \DateTime()]);
+		DB::commit();
+	}
+	/**
+	 * Returns the validation rules array
+	 * @return array
+	 */
+	public function validationRules()
+	{
+		return [
+			'email' => 'required|string|email',
+			'password' => 'required|string'
+		];
+	}
 }

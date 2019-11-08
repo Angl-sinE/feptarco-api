@@ -45,6 +45,8 @@ class ActivateCompetitionHandler extends BaseHandler
                         // Checking the competition status for valid update
                         if ($competition->status === Competition::STATUS_REGISTER){
                             // Updating the competition
+	                        //TODO: Para activar la competencia se debe comprobar que los usuarios de copetition_enrollment
+	                        //TODO: existen en competition_participants
                             $competitionDAO->update($competition,['status' => Competition::STATUS_ACTIVE]);
                             DB::commit();
                         }

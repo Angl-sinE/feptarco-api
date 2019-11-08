@@ -17,39 +17,42 @@ use App\DAO\UserDAO;
 
 class PasswordQuickResetHandler extends BaseHandler
 {
-    /**
-     * @throws \Exception
-     */
-    protected function handle()
-    {
-        $userDao = new UserDAO();
-        DB::beginTransaction();
-        $checkedUser = $userDao->findOneBy(['email' => $this->request['email']]);
-            if (isset($checkedUser)){
-                if(Hash::check($this->request['oldPassword'], $checkedUser->password)){
-                    $userDao->update($checkedUser, ['password' => bcrypt($this->request['password']),
-                        'first_login' => false]);
-                    DB::commit();
-                } else {
-                    $this->addError(Lang::trans('message.api.password.reset.incorrect'));
-                }
-            } else {
-                $this->addError(Lang::trans('message.api.profile.error.user'));
-            }
-    }
+	/**
+	 * @throws \Exception
+	 */
+	protected function handle()
+	{
+		$userDao = new UserDAO();
 
-    public function validationRules()
-    {
-       return [
-           'email' => 'required',
-           'oldPassword' => 'required',
-           'password' => ['required',
-               'min:6',
-               'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/',
-               'confirmed'],
-       ];
-    }
+		DB::beginTransaction();
 
+		$checkedUser = $userDao->findOneBy(['email' => $this->request['email']]);
 
+		if (!isset($checkedUser)){
+				$this->addError(Lang::trans('message.api.profile.error.user'));
+		}
 
+		if(Hash::check($this->request['oldPassword'], $checkedUser->password)){
+			$userDao->update($checkedUser, ['password' => bcrypt($this->request['password']),
+				'first_login' => false]);
+
+			DB::commit();
+		}
+		else {
+			$this->addError(Lang::trans('message.api.password.reset.incorrect'));
+		}
+
+	}
+
+	public function validationRules()
+	{
+	   return [
+		   'email' => 'required',
+		   'oldPassword' => 'required',
+		   'password' => ['required',
+			   'min:6',
+			   'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/',
+			   'confirmed'],
+	   ];
+	}
 }

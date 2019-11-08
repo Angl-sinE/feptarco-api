@@ -24,4 +24,12 @@ class Club extends Model
     {
         return $this->hasOne('App\Model\TrainerProfile');
     }
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 */
+	public function clubDelegate()
+	{
+		return $this->hasOne('App\Model\ClubDelegate');
+	}
 }
