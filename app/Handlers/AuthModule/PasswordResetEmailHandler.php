@@ -37,12 +37,14 @@ class PasswordResetEmailHandler extends BaseHandler
 		   $passwordReset->fill(['email' => $user->email, 'token' =>str_random(60)]);
 		   $passwordResetDao->create($passwordReset);
 		}
-
+		dump($user);
+        dd($passwordReset);
 		if ($user && $passwordReset) {
 			$this->setData(['token' => $passwordReset->token, 'email' => $user->email]);
 			$user->notify(
 				new PasswordResetRequest($passwordReset->token)
 			);
+
 		}
 		else
 			$this->addError(Lang::trans('message.api.password.reset.error'));

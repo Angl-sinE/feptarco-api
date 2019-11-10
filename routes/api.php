@@ -15,7 +15,7 @@ Route::any('test',  'API\AuthController@test');
 Route::post('/login', 'API\AuthController@login');
 Route::post(
     '/password-reset',
-    ['uses' =>'API\AuthController@executePasswordQuickReset']);
+    ['uses' =>'API\AuthController@executePasswordReset']);
 Route::post(
     '/password-restart',
     ['uses' =>'API\AuthController@executePasswordRestart']);

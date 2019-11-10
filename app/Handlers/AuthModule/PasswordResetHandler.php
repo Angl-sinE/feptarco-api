@@ -50,7 +50,7 @@ class PasswordResetHandler extends BaseHandler
 		   'oldPassword' => 'required',
 		   'password' => ['required',
 			   'min:6',
-			   'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/',
+			   'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/',
 			   'confirmed'],
 	   ];
 	}
