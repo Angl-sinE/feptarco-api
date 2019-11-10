@@ -41,7 +41,7 @@ class AthleteHandler extends BaseHandler
 
 		$profile = $adminDAO->findOneBy((['user_id' => $checkedUser->id]));
 
-		if (isset($profile)) {
+		if (!isset($profile)) {
 			$this->addError(Lang::trans('message.api.profile.error.not.found'));
 		}
 
