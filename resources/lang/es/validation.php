@@ -92,7 +92,7 @@ return [
     'not_regex'            => 'La clave debe incluir al menos una mayúscula, numero y caracter especial',
 	'numeric'              => 'El campo :attribute debe ser un número.',
     'present'              => 'El campo :attribute debe estar presente.',
-    'regex'                => 'El formato del campo :attribute es inválido.',
+    'regex'                => 'El campo :attribute debe incluir al menos una mayúscula, numero y un caracter especial',
     'required'             => 'El campo :attribute es obligatorio.',
     'required_if'          => 'El campo :attribute es obligatorio cuando el campo :other es :value.',
     'required_unless'      => 'El campo :attribute es requerido a menos que :other se encuentre en :values.',

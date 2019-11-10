@@ -14,7 +14,7 @@ use App\Handlers\BaseHandler;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
 
-class PasswordResetFindHandler extends BaseHandler
+class PasswordResetEmailFindHandler extends BaseHandler
 {
     protected function handle()
     {

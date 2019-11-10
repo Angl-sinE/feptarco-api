@@ -16,6 +16,9 @@ Route::post('/login', 'API\AuthController@login');
 Route::post(
     '/password-reset',
     ['uses' =>'API\AuthController@executePasswordQuickReset']);
+Route::post(
+    '/password-restart',
+    ['uses' =>'API\AuthController@executePasswordRestart']);
 
 
 /************ Auth Group Routes **************/
@@ -238,9 +241,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'password'
 ], function () {
-    Route::post('/create', 'API\AuthController@createPasswordReset');
-    Route::get('/find/{token}', 'API\AuthController@findPasswordReset');
-    Route::post('/reset', 'API\AuthController@executePasswordReset');
+    Route::post('/create', 'API\AuthController@createPasswordEmailReset');
+    Route::get('/find/{token}', 'API\AuthController@findPasswordEmailReset');
+    Route::post('/reset', 'API\AuthController@executePasswordEmailReset');
 });
 
 Route::fallback(function () {

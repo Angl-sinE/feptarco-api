@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 
 use App\Handlers\AuthModule\LoginHandler;
-use App\Handlers\AuthModule\PasswordQuickResetHandler;
-use App\Handlers\AuthModule\PasswordResetExecute;
-use App\Handlers\AuthModule\PasswordResetFindHandler;
 use App\Handlers\AuthModule\PasswordResetHandler;
+use App\Handlers\AuthModule\PasswordResetEmailExecute;
+use App\Handlers\AuthModule\PasswordResetEmailFindHandler;
+use App\Handlers\AuthModule\PasswordResetEmailHandler;
+use App\Handlers\AuthModule\PasswordRestartHandler;
 use App\Handlers\AuthModule\RegisterHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -85,9 +86,9 @@ class AuthController extends ApiController
      * @param Request $request
      * @return mixed
      */
-    public function createPasswordReset(Request $request)
+    public function createPasswordEmailReset(Request $request)
     {
-        $handler = new PasswordResetHandler($request->all());
+        $handler = new PasswordResetEmailHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return  self::apiResponseOK(Lang::trans('message.api.password.reset.email.success'), $handler->getData());
@@ -99,9 +100,9 @@ class AuthController extends ApiController
      * @param $token
      * @return mixed
      */
-    public function findPasswordReset($token)
+    public function findPasswordEmailReset($token)
     {
-        $handler = new PasswordResetFindHandler('Token',['token' =>$token]);
+        $handler = new PasswordResetEmailFindHandler('Token',['token' =>$token]);
         $handler->processHandler();
         if ($handler->isSuccess()){
             return  self::apiResponseOK(Lang::trans('message.password.reset.token.success'), $handler->getData());
@@ -113,9 +114,9 @@ class AuthController extends ApiController
      * @param Request $request
      * @return mixed
      */
-    public function executePasswordReset(Request $request)
+    public function executePasswordEmailReset(Request $request)
     {
-        $handler = new PasswordResetExecute($request->all());
+        $handler = new PasswordResetEmailExecute($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseOK(Lang::trans('message.api.password.reset.password.success'), $handler->getData());
@@ -123,9 +124,27 @@ class AuthController extends ApiController
         return self::apiResponseError(Lang::trans('message.api.password.reset.password.error'));
     }
 
-    public function executePasswordQuickReset(Request $request)
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function executePasswordReset(Request $request)
     {
-        $handler = new PasswordQuickResetHandler($request->all());
+        $handler = new PasswordResetHandler($request->all());
+        $handler->processHandler();
+        if ($handler->isSuccess()){
+            return self::apiResponseCreatedNoData(Lang::trans('message.api.password.reset.password.success'));
+        }
+        return self::apiResponseError($handler->getErrors());
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function executePasswordRestart(Request $request)
+    {
+        $handler = new PasswordRestartHandler($request->all());
         $handler->processHandler();
         if ($handler->isSuccess()){
             return self::apiResponseCreatedNoData(Lang::trans('message.api.password.reset.password.success'));

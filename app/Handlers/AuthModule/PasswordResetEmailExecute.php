@@ -15,7 +15,7 @@ use App\Handlers\BaseHandler;
 use App\Notifications\PasswordResetSuccess;
 use Illuminate\Support\Facades\Lang;
 
-class PasswordResetExecute extends BaseHandler
+class PasswordResetEmailExecute extends BaseHandler
 {
 	protected function handle()
 	{
