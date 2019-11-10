@@ -28,7 +28,7 @@ class LoginHandler extends BaseHandler
 		$email = strtolower($this->request['email']);
 		$auth = Auth::attempt(['email' => $email, 'password' => $this->request['password']]);
 
-		if (!isset($auth)) {
+		if (!$auth) {
 			$this->addError(Lang::trans('message.api.login.invalid.creds'));
 		}
 
